@@ -2,7 +2,7 @@
 name = "fast_zero"
 version = "0.1.0"
 description = ""
-authors = ["Pedro Farias <phjfg@cesar.org.br>"]
+authors = ["Pedro Farias <pedrohjfg@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -35,9 +35,9 @@ addopts = '-p no:warnings'
 [tool.taskipy.tasks]
 lint = 'ruff check .; ruff check . --diff'
 format = 'ruff check . --fix; ruff format .'
-run = 'fastapi dev fast_zero/app.py'
+run = 'fastapi dev setup/app.py'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=fast_zero -vv'
+test = 'pytest -s -x --cov=setup -vv'
 post_test = 'coverage html'
 
 [build-system]
