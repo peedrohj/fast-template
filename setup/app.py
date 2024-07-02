@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from setup.config import CONFIG
+from setup.middleware.exception_handler import exception_handler
 
 
 class Message(BaseModel):
@@ -31,3 +32,4 @@ app.add_middleware(
     allow_methods=CONFIG.CORS_ALLOW_METHODS,
     allow_headers=CONFIG.CORS_ALLOW_HEADERS,
 )
+app.add_exception_handler(Exception, exception_handler)
