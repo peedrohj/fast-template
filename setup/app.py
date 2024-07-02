@@ -44,7 +44,7 @@ app.add_middleware(
 app.add_exception_handler(Exception, exception_handler)
 
 
-@app.get(path='/health', status_code=status.HTTP_200_OK, responses={})
+@app.get(path='/health', status_code=status.HTTP_200_OK, tags=['Health'])
 def health():
     """
     The health check route for this api
