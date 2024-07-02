@@ -30,10 +30,9 @@ class ConfigClass(BaseSettings):
     )
 
     ENVIRONMENT: Literal['prod', 'dev', 'test'] = Field(default='dev')
-    DB_ADDRESS: str = Field(default='5432')
     DB_NAME: str = Field(default='fast')
     DB_USERNAME: str = Field(default='user')
-    DB_HOST: str = Field(default='localhost')
+    DB_HOST: str = Field(default='localhost:5432')
     DB_PASSWORD: str = Field(default='password')
 
     @computed_field
