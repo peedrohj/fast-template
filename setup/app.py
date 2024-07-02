@@ -1,6 +1,6 @@
 """Fast API APP"""
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -19,7 +19,16 @@ app = FastAPI(
     description='Description from fast API',
     version='0.1.0',
     responses={
-        500: {'model': Message},
+        500: {
+            'model': Message,
+            'content': {
+                'application/json': {
+                    'example': [
+                        {'code': '500', 'message': 'Internal server error'},
+                    ]
+                }
+            },
+        },
         403: {'model': Message},
         422: {'model': Message},
     },
@@ -33,3 +42,11 @@ app.add_middleware(
     allow_headers=CONFIG.CORS_ALLOW_HEADERS,
 )
 app.add_exception_handler(Exception, exception_handler)
+
+
+@app.get(path='/health', status_code=status.HTTP_200_OK, responses={})
+def health():
+    """
+    The health check route for this api
+    """
+    return
