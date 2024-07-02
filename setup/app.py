@@ -1,10 +1,27 @@
 """Fast API APP"""
 
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 from .config import Config
 
-app = FastAPI()
+
+class Message(BaseModel):
+    code: str
+    message: str
+
+
+app = FastAPI(
+    title='Fast setup API',
+    summary='Summary from fast API',
+    description='Description from fast API',
+    version='0.1.0',
+    responses={
+        500: {'model': Message},
+        403: {'model': Message},
+        422: {'model': Message},
+    },
+)
 
 
 @app.get('/')
