@@ -1,9 +1,10 @@
 """Fast API APP"""
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from .config import Config
+from setup.config import CONFIG
 
 
 class Message(BaseModel):
@@ -23,11 +24,10 @@ app = FastAPI(
     },
 )
 
-
-@app.get('/')
-def read_root():
-    """
-    Read root function for fast API
-    """
-    print(Config().DB_URL)
-    return {'message': 'Hello from fast API!'}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CONFIG.CORS_ALLOW_ORIGINS,
+    allow_credentials=CONFIG.CORS_ALLOW_CREDENTIALS,
+    allow_methods=CONFIG.CORS_ALLOW_METHODS,
+    allow_headers=CONFIG.CORS_ALLOW_HEADERS,
+)
