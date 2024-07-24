@@ -1,11 +1,14 @@
 """Fast API APP"""
 
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from app.infra.controllers.router import app_router
 from setup.config import CONFIG
 from setup.middleware.exception_handler import exception_handler
+
+from .health import health_router
 
 
 class Message(BaseModel):
@@ -43,10 +46,6 @@ app.add_middleware(
 )
 app.add_exception_handler(Exception, exception_handler)
 
+app.include_router(health_router)
+app.include_router(app_router)
 
-@app.get(path='/health', status_code=status.HTTP_200_OK, tags=['Health'])
-def health():
-    """
-    The health check route for this api
-    """
-    return
