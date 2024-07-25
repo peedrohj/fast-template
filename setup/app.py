@@ -33,19 +33,7 @@ app = FastAPI(
     description='Description from fast API',
     version='0.1.0',
     responses={
-        500: {
-            'model': GenericError,
-            'content': {
-                'application/json': {
-                    'example': [
-                        {
-                            'error': 'TypeError',
-                            'message': 'Unexpected keyword argument',
-                        },
-                    ]
-                }
-            },
-        },
+        500: {'model': GenericError},
         403: {'model': GenericError},
         422: {'model': SerializationError},
     },
