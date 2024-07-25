@@ -39,6 +39,8 @@ app = FastAPI(
     },
 )
 
+app.router.prefix = '/api/v1'
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CONFIG.CORS_ALLOW_ORIGINS,
@@ -46,7 +48,7 @@ app.add_middleware(
     allow_methods=CONFIG.CORS_ALLOW_METHODS,
     allow_headers=CONFIG.CORS_ALLOW_HEADERS,
 )
-app.add_exception_handler(Exception, exception_handler)
 
+app.add_exception_handler(Exception, exception_handler)
 app.include_router(health_router)
 app.include_router(app_router)
