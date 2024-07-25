@@ -1,15 +1,25 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import Field
+from pydantic.dataclasses import dataclass
 
 
-class BaseSchema(BaseModel):
-    id: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    archived_at: Optional[datetime] = None
+@dataclass
+class BaseSchema:
+    id: Optional[str] = Field(description='The id of the object', default=None)
+    created_at: Optional[datetime] = Field(
+        description='Datetime value when the object was created', default=None
+    )
+    updated_at: Optional[datetime] = Field(
+        description='Datetime value when the object was updated', default=None
+    )
+    deleted_at: Optional[datetime] = Field(
+        description='Datetime value when the object was deleted', default=None
+    )
+    archived_at: Optional[datetime] = Field(
+        description='Datetime value when the object was archived', default=None
+    )
 
     class Config:
         from_attributes = True
