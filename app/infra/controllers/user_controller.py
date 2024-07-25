@@ -8,11 +8,15 @@ user_router = APIRouter(prefix='/user', tags=['User'])
 
 
 @user_router.post(path='/', status_code=status.HTTP_201_CREATED)
-def create_user(user: CreateUserSchema) -> PaginatedResponse[UserSchema]:
+def create_user(user_input: CreateUserSchema) -> UserSchema:
     """
     This route will be used to create a user
     """
+    user = User(**user_input.dict())
+
     create_user = CreateUser(user_repository=None)
     created_user = create_user.execute(user=user)
 
-    return PaginatedResponse(data=[created_user])
+    return created_user.to_json()
+
+

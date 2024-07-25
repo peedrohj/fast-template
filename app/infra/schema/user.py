@@ -1,11 +1,9 @@
-from pydantic import EmailStr, Field
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel, EmailStr, Field
 
 from shared.infra.schema.base_schema import BaseSchema
 
 
-@dataclass
-class CreateUserSchema:
+class CreateUserSchema(BaseModel):
     username: str = Field(
         description='Username that will be used for the user'
     )
@@ -15,9 +13,6 @@ class CreateUserSchema:
     )
 
 
-@dataclass
 class UserSchema(BaseSchema):
-    username: str = Field(
-        description='Username used by the user'
-    )
+    username: str = Field(description='Username used by the user')
     email: EmailStr = Field(description='Email used by the user')

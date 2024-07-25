@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+import dataclasses
 
 from shared.domain.entities.entity import BaseEntity
 
 
-@dataclass
+@dataclasses.dataclass
 class User(BaseEntity):
     username: str
     email: str
