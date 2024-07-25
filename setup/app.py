@@ -1,19 +1,30 @@
 """Fast API APP"""
 
+from typing import Dict, List
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.infra.controllers.router import app_router
 from setup.config import CONFIG
+from setup.health import health_router
 from setup.middleware.exception_handler import exception_handler
 
-from .health import health_router
 
-
-class Message(BaseModel):
-    code: str
+class GenericError(BaseModel):
+    error: str
     message: str
+
+
+class SerializationError(BaseModel):
+    class DetailError(BaseModel):
+        type: str
+        loc: List[str]
+        msg: str
+        input: Dict[str, str]
+
+    detail: List[DetailError]
 
 
 app = FastAPI(
@@ -23,17 +34,20 @@ app = FastAPI(
     version='0.1.0',
     responses={
         500: {
-            'model': Message,
+            'model': GenericError,
             'content': {
                 'application/json': {
                     'example': [
-                        {'code': '500', 'message': 'Internal server error'},
+                        {
+                            'error': 'TypeError',
+                            'message': 'Unexpected keyword argument',
+                        },
                     ]
                 }
             },
         },
-        403: {'model': Message},
-        422: {'model': Message},
+        403: {'model': GenericError},
+        422: {'model': SerializationError},
     },
 )
 
@@ -48,4 +62,3 @@ app.add_exception_handler(Exception, exception_handler)
 
 app.include_router(health_router)
 app.include_router(app_router)
-
