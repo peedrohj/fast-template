@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from app.infra.controllers.router import app_router
 from setup.config import CONFIG
+from setup.db.config import BASE, engine
 from setup.health import health_router
 from setup.middleware.exception_handler import exception_handler
 
@@ -52,3 +53,5 @@ app.add_middleware(
 app.add_exception_handler(Exception, exception_handler)
 app.include_router(health_router)
 app.include_router(app_router)
+
+BASE.metadata.create_all(engine)

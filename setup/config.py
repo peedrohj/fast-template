@@ -36,8 +36,12 @@ class ConfigClass(BaseSettings):
     DB_PASSWORD: str = Field(default='password')
 
     @computed_field
-    def DB_URL(self) -> str:
+    def DB_POSTGRES_URL(self) -> str:
         return f'postgresql+psycopg2://{self.DB_HOST}/{self.DB_NAME}?user={self.DB_USERNAME}&password={self.DB_PASSWORD}'
+
+    @classmethod
+    def DB_SQLITE_URL(self) -> str:
+        return 'sqlite:///database.db'
 
 
 CONFIG = ConfigClass()

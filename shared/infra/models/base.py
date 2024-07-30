@@ -3,13 +3,12 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, registry
+from sqlalchemy.orm import Mapped
 
-table_registry = registry()
+from setup.db.config import BASE
 
 
-@table_registry.mapped_as_dataclass
-class BaseModel:
+class BaseModel(BASE):
     __abstract__ = True
 
     id: Mapped[int] = Column(
