@@ -10,6 +10,8 @@ class ConfigClass(BaseSettings):
         env_file_encoding='utf-8',
     )
 
+    APP_NAMES: List[str] = Field(default=['app', 'shared'])
+
     CORS_ALLOW_ORIGINS: List[str] = Field(
         default=[
             'http://localhost',
