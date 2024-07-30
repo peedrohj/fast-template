@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -8,19 +9,20 @@ class BaseSchema(BaseModel):
         description='The id of the object',
         default=None,
     )
-    created_at: datetime = Field(
+    created_at: Optional[datetime] = Field(
         description='Datetime value when the object was created',
         default=None,
     )
-    updated_at: datetime = Field(
+    updated_at: Optional[datetime] = Field(
         description='Datetime value when the object was updated',
         default=None,
+
     )
-    deleted_at: datetime = Field(
+    deleted_at: Optional[datetime] = Field(
         description='Datetime value when the object was deleted',
         default=None,
     )
-    archived_at: datetime = Field(
+    archived_at: Optional[datetime] = Field(
         description='Datetime value when the object was archived',
         default=None,
     )

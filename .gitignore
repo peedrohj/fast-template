@@ -175,3 +175,5 @@ pyrightconfig.json
 __pycache__/
 
 .coverage
+
+*.db

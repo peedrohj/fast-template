@@ -2,6 +2,7 @@ from fastapi import APIRouter, status
 
 from app.application.use_case.create_user import CreateUser
 from app.domain.entities.user import User
+from app.infra.repositories.db_user_repository import DbUserRepository
 from app.infra.schema.user import CreateUserSchema, UserSchema
 from shared.infra.schema.paginated_response import PaginatedResponse
 
@@ -26,4 +27,8 @@ def list_user() -> PaginatedResponse[UserSchema]:
     """
     This route will be used to get all users
     """
-    return PaginatedResponse(data=[])
+    user_repository = DbUserRepository()
+    users = user_repository.list()
+
+    print("users: ", users)
+    return PaginatedResponse(data=users)

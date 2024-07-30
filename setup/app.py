@@ -53,5 +53,3 @@ app.add_middleware(
 app.add_exception_handler(Exception, exception_handler)
 app.include_router(health_router)
 app.include_router(app_router)
-
-BASE.metadata.create_all(engine)

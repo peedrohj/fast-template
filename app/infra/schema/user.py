@@ -14,5 +14,5 @@ class CreateUserSchema(BaseModel):
 
 
 class UserSchema(BaseSchema):
-    username: str = Field(description='Username used by the user')
-    email: EmailStr = Field(description='Email used by the user')
+    name: str = Field(description='Username used by the user')
+    email: str = Field(description='Email used by the user')

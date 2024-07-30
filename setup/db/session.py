@@ -1,10 +1,8 @@
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 
 from setup.db.config import engine
 
-Session = sessionmaker(engine)
-
 
 def get_session():
-    with Session.begin() as session:
+    with Session(engine) as session, session.begin():
         yield session
