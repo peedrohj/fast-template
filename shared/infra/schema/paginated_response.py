@@ -1,13 +1,17 @@
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 
 
 class PaginatedResponse[T](BaseModel):
-    data: List[T]
-    page_size: int = 10
-    page_count: int = 1
-    page_index: int = 1
-
     class Config:
         from_attributes = True
+
+    data: List[T]
+    number_of_pages: int = 1
+    page_number: int = 1
+
+    @computed_field
+    @property
+    def page_size(self) -> int:
+        return len(self.data)
