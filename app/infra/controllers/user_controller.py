@@ -24,11 +24,13 @@ def create_user(user_input: CreateUserSchema) -> UserSchema:
 
 
 @user_router.get(path='/', status_code=status.HTTP_200_OK)
-def list_user() -> PaginatedResponse[UserSchema]:
+def list_user(
+    offset: int = 0, limit: int = 10
+) -> PaginatedResponse[UserSchema]:
     """
     This route will be used to get all users
     """
     user_repository = DbUserRepository()
-    users = user_repository.list()
+    users = user_repository.list(offset=offset, limit=limit)
 
     return users
