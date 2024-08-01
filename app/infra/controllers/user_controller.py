@@ -34,3 +34,14 @@ def list_user(
     users = user_repository.list(offset=offset, limit=limit)
 
     return users
+
+
+@user_router.get(path='/{id}', status_code=status.HTTP_200_OK)
+def find_user(user_id: int) -> UserSchema:
+    """
+    This route will be used to get a user by id
+    """
+    user_repository = DbUserRepository()
+    users = user_repository.find(user_id=user_id)
+
+    return users

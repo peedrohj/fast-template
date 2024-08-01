@@ -42,11 +42,19 @@ class DbUserRepository(UserRepository, BaseRepository[User]):
 
         return User(**user.to_dict())
 
-    def find(self, id: int, session: Session = next(get_session())) -> User:
-        user = session.scalars(select(User).where(UserModel.id == id)).one()
+    def find(
+        self, user_id: int, session: Session = next(get_session())
+    ) -> User:
+        user = session.scalars(
+            select(UserModel).where(UserModel.id == user_id)
+        ).one()
         return User(**user.to_dict())
 
-    def delete(self, id: int, session: Session = next(get_session())) -> None:
-        user = session.scalars(select(User).where(UserModel.id == id)).one()
+    def delete(
+        self, user_id: int, session: Session = next(get_session())
+    ) -> None:
+        user = session.scalars(
+            select(UserModel).where(UserModel.id == user_id)
+        ).one()
         session.delete(user)
         session.flush()
