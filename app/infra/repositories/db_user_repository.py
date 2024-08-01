@@ -1,26 +1,32 @@
-from typing import List
-
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.domain.entities.user import User
 from app.domain.repositories.user_repository import UserRepository
 from app.infra.models.user import UserModel
 from setup.db.session import get_session
+from shared.domain.repositories.base_repository import (
+    BaseRepository,
+    PaginatedResponse,
+)
 
 
-class DbUserRepository(UserRepository):
+class DbUserRepository(UserRepository, BaseRepository[User]):
     def list(
         self,
         session: Session = next(get_session()),
         offset: int = 0,
         limit: int = 10,
-    ) -> List[User]:
+    ) -> PaginatedResponse[User]:
         users = session.scalars(
             select(UserModel).offset(offset).limit(limit)
         ).all()
 
-        return [User(**user.to_dict()) for user in users]
+        return self._paginate_response(
+            data=[User(**user.to_dict()) for user in users],
+            page_number=int(offset / 10) + 1,
+            total_items=session.scalar(select(func.count(UserModel.id))),
+        )
 
     def save(self, user: User, session: Session = next(get_session())) -> User:
         user = UserModel(name=user.name, email=user.email)

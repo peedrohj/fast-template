@@ -31,4 +31,4 @@ def list_user() -> PaginatedResponse[UserSchema]:
     user_repository = DbUserRepository()
     users = user_repository.list()
 
-    return PaginatedResponse(data=users)
+    return users

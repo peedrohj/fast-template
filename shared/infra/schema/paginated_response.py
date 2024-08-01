@@ -9,6 +9,7 @@ class PaginatedResponse[T](BaseModel):
 
     data: List[T]
     number_of_pages: int = 1
+    total_items: int = 0
     page_number: int = 1
 
     @computed_field

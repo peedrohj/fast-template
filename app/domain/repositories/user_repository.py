@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import List
 
 from app.domain.entities.user import User
+from shared.domain.repositories.base_repository import PaginatedResponse
 
 
 class UserRepository(ABC):
@@ -9,7 +9,7 @@ class UserRepository(ABC):
     def save(self, user: User, session: any = None) -> User: ...
 
     @abstractmethod
-    def list(self, session: any = None) -> List[User]: ...
+    def list(self, session: any = None) -> PaginatedResponse[User]: ...
 
     @abstractmethod
     def find(
