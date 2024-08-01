@@ -1,6 +1,16 @@
 from typing import List
 
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel
+
+
+class PaginationProps(BaseModel):
+    class Config:
+        from_attributes = True
+
+    current_page: int = 0
+    total_records: int = 0
+    total_pages: int = 0
+    page_size: int = 0
 
 
 class PaginatedResponse[T](BaseModel):
@@ -8,11 +18,4 @@ class PaginatedResponse[T](BaseModel):
         from_attributes = True
 
     data: List[T]
-    number_of_pages: int = 1
-    total_items: int = 0
-    page_number: int = 1
-
-    @computed_field
-    @property
-    def page_size(self) -> int:
-        return len(self.data)
+    pagination: PaginationProps
