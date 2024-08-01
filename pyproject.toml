@@ -43,6 +43,8 @@ run = 'fastapi dev setup/app.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=setup -vv'
 post_test = 'coverage html'
+makemigrate = 'alembic revision --autogenerate'
+migrate = 'alembic upgrade head  '
 
 [build-system]
 requires = ["poetry-core"]
