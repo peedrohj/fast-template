@@ -23,10 +23,17 @@ class DbUserRepository(UserRepository):
         return [User(**user.to_dict()) for user in users]
 
     def save(self, user: User, session: Session = next(get_session())) -> User:
-        return super().save(user, session)
+        user = UserModel(name=user.name, email=user.email)
+        session.add(user)
+        session.flush()
+
+        return User(**user.to_dict())
 
     def find(self, id: int, session: Session = next(get_session())) -> User:
-        return super().find(id, session)
+        user = session.scalars(select(User).where(UserModel.id == id)).one()
+        return User(**user.to_dict())
 
     def delete(self, id: int, session: Session = next(get_session())) -> None:
-        return super().delete(id, session)
+        user = session.scalars(select(User).where(UserModel.id == id)).one()
+        session.delete(user)
+        session.flush()

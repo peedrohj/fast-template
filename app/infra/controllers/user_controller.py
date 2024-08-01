@@ -16,7 +16,8 @@ def create_user(user_input: CreateUserSchema) -> UserSchema:
     """
     user = User(**user_input.model_dump())
 
-    create_user = CreateUser(user_repository=None)
+    user_repository = DbUserRepository()
+    create_user = CreateUser(user_repository=user_repository)
     created_user = create_user.execute(user=user)
 
     return created_user.to_json()
@@ -30,5 +31,4 @@ def list_user() -> PaginatedResponse[UserSchema]:
     user_repository = DbUserRepository()
     users = user_repository.list()
 
-    print("users: ", users)
     return PaginatedResponse(data=users)

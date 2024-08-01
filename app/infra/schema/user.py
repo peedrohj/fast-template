@@ -4,7 +4,7 @@ from shared.infra.schema.base_schema import BaseSchema
 
 
 class CreateUserSchema(BaseModel):
-    username: str = Field(
+    name: str = Field(
         description='Username that will be used for the user'
     )
     email: EmailStr = Field(description='Email that will be used for the user')
