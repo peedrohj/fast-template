@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status
 
-from app.application.use_case.create_user import CreateUser
-from app.application.use_case.delete_user import DeleteUser
+from app.application.use_case.user.create_user import CreateUser
+from app.application.use_case.user.delete_user import DeleteUser
 from app.domain.entities.user import User
 from app.infra.repositories.db_user_repository import DbUserRepository
 from app.infra.schema.user import CreateUserSchema, UserSchema
