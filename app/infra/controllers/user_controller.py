@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status
 
 from app.application.use_case.create_user import CreateUser
+from app.application.use_case.delete_user import DeleteUser
 from app.domain.entities.user import User
 from app.infra.repositories.db_user_repository import DbUserRepository
 from app.infra.schema.user import CreateUserSchema, UserSchema
@@ -45,3 +46,13 @@ def find_user(user_id: int) -> UserSchema:
     users = user_repository.find(user_id=user_id)
 
     return users
+
+
+@user_router.delete(path='/{id}', status_code=status.HTTP_200_OK)
+def delete_user(user_id: int) -> None:
+    """
+    This route will be used to create a user
+    """
+    user_repository = DbUserRepository()
+    delete_user = DeleteUser(user_repository=user_repository)
+    delete_user.execute(user_id=user_id)
