@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from app.domain.entities.user import User
 from app.domain.repositories.user_repository import UserRepository
 from app.infra.models.user import UserModel
-from setup.db.session import get_session
 from shared.domain.repositories.base_repository import (
     BaseRepository,
     PaginatedResponse,
@@ -36,11 +35,15 @@ class DbUserRepository(UserRepository, BaseRepository[User]):
         )
 
     def save(self, user: User, session: Session) -> User:
-        user = UserModel(name=user.name, email=user.email)
-        session.add(user)
+        created_user = UserModel(name=user.name, email=user.email)
+
+        if user.password:
+            created_user.password = user.password
+
+        session.add(created_user)
         session.flush()
 
-        return User(**user.to_dict())
+        return User(**created_user.to_dict())
 
     def find(self, user_id: int, session: Session) -> User:
         user = session.scalars(

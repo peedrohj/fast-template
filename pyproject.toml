@@ -12,6 +12,8 @@ pydantic-settings = "^2.3.4"
 pydantic = "^2.8.0"
 sqlalchemy = "^2.0.31"
 alembic = "^1.13.2"
+pyjwt = "^2.9.0"
+pwdlib = {extras = ["argon2"], version = "^0.2.0"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -43,7 +45,7 @@ run = 'fastapi dev setup/app.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=setup -vv'
 post_test = 'coverage html'
-makemigrate = 'alembic revision --autogenerate'
+makemigration = 'alembic revision --autogenerate'
 migrate = 'alembic upgrade head  '
 
 [build-system]

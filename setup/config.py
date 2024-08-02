@@ -51,5 +51,9 @@ class ConfigClass(BaseSettings):
 
         return self.DB_POSTGRES_URL()
 
+    APP_SECRET_KEY: str = Field(default='your-secret-key')
+    APP_SECRET_ALGORITHM: str = Field(default='HS256')
+    APP_SECRET_EXPIRE_MINUTES: str = Field(default='30')
+
 
 CONFIG = ConfigClass()

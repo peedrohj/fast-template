@@ -3,7 +3,7 @@ from typing import List
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from setup.app import BASE
+from setup.db.config import BASE
 from setup.config import CONFIG
 from alembic import context
 

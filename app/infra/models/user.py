@@ -8,6 +8,7 @@ class UserModel(BaseModel):
 
     name = Column(String)
     email = Column(String)
+    password = Column(String)
 
     def to_dict(self):
         return {
