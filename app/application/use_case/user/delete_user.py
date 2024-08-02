@@ -1,18 +1,21 @@
 from app.domain.repositories.user_repository import UserRepository
-from setup.db.session import get_session
+from shared.domain.entities.session import DatabaseSession
 
 
 class DeleteUser:
-    def __init__(self, user_repository: UserRepository):
+    def __init__(
+        self, user_repository: UserRepository, session: DatabaseSession
+    ):
         self.__user_repository = user_repository
+        self.__session = session
 
     def execute(self, user_id: int):
-        session = next(get_session())
-
         try:
-            self.__user_repository.delete(user_id=user_id, session=session)
+            self.__user_repository.delete(
+                user_id=user_id, session=self.__session
+            )
         except Exception as err:
-            session.rollback()
+            self.__session.rollback()
             raise err
         finally:
-            session.commit()
+            self.__session.commit()

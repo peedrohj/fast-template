@@ -15,7 +15,7 @@ from shared.domain.repositories.base_repository import (
 class DbUserRepository(UserRepository, BaseRepository[User]):
     def list(
         self,
-        session: Session = next(get_session()),
+        session: Session,
         offset: int = 0,
         limit: int = 10,
     ) -> PaginatedResponse[User]:
@@ -35,24 +35,20 @@ class DbUserRepository(UserRepository, BaseRepository[User]):
             pagination=pagination,
         )
 
-    def save(self, user: User, session: Session = next(get_session())) -> User:
+    def save(self, user: User, session: Session) -> User:
         user = UserModel(name=user.name, email=user.email)
         session.add(user)
         session.flush()
 
         return User(**user.to_dict())
 
-    def find(
-        self, user_id: int, session: Session = next(get_session())
-    ) -> User:
+    def find(self, user_id: int, session: Session) -> User:
         user = session.scalars(
             select(UserModel).where(UserModel.id == user_id)
         ).one()
         return User(**user.to_dict())
 
-    def delete(
-        self, user_id: int, session: Session = next(get_session())
-    ) -> None:
+    def delete(self, user_id: int, session: Session) -> None:
         user = session.scalars(
             select(UserModel).where(UserModel.id == user_id)
         ).one()
