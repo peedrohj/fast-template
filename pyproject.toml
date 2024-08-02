@@ -13,7 +13,7 @@ pydantic = "^2.8.0"
 sqlalchemy = "^2.0.31"
 alembic = "^1.13.2"
 pyjwt = "^2.9.0"
-pwdlib = {extras = ["argon2"], version = "^0.2.0"}
+pwdlib = { extras = ["argon2"], version = "^0.2.0" }
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -29,6 +29,7 @@ extend-exclude = ['migrations']
 [tool.ruff.lint]
 preview = true
 select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+ignore = ['PLR']
 
 [tool.ruff.format]
 preview = true
