@@ -6,7 +6,11 @@ from app.application.use_case.user.delete_user import DeleteUser
 from app.application.use_case.user.update_user import UpdateUser
 from app.domain.entities.user import User
 from app.infra.repositories.db_user_repository import DbUserRepository
-from app.infra.schema.user import CreateUserSchema, UserSchema
+from app.infra.schema.user import (
+    CreateUserSchema,
+    UpdateUserSchema,
+    UserSchema,
+)
 from setup.db.session import get_session
 from shared.infra.schema.paginated_response import PaginatedResponse
 
@@ -58,7 +62,7 @@ def find_user(
 @user_router.put(path='/{user_id}', status_code=status.HTTP_200_OK)
 def update_user(
     user_id: int,
-    user_input: CreateUserSchema,
+    user_input: UpdateUserSchema,
     session: Session = Depends(get_session),
 ) -> None:
     """
