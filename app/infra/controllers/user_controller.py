@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.application.use_case.user.create_user import CreateUser
 from app.application.use_case.user.delete_user import DeleteUser
+from app.application.use_case.user.update_user import UpdateUser
 from app.domain.entities.user import User
 from app.infra.repositories.db_user_repository import DbUserRepository
 from app.infra.schema.user import CreateUserSchema, UserSchema
@@ -41,7 +42,7 @@ def list_user(
     return users
 
 
-@user_router.get(path='/{id}', status_code=status.HTTP_200_OK)
+@user_router.get(path='/{user_id}', status_code=status.HTTP_200_OK)
 def find_user(
     user_id: int, session: Session = Depends(get_session)
 ) -> UserSchema:
@@ -54,7 +55,25 @@ def find_user(
     return users
 
 
-@user_router.delete(path='/{id}', status_code=status.HTTP_200_OK)
+@user_router.put(path='/{user_id}', status_code=status.HTTP_200_OK)
+def update_user(
+    user_id: int,
+    user_input: CreateUserSchema,
+    session: Session = Depends(get_session),
+) -> None:
+    """
+    This route will be used to update an user
+    """
+    user = User(**user_input.model_dump(), id=user_id)
+
+    user_repository = DbUserRepository()
+    update_user = UpdateUser(user_repository=user_repository, session=session)
+    updated_user = update_user.execute(user=user)
+
+    return updated_user
+
+
+@user_router.delete(path='/{user_id}', status_code=status.HTTP_200_OK)
 def delete_user(user_id: int, session: Session = Depends(get_session)) -> None:
     """
     This route will be used to create a user

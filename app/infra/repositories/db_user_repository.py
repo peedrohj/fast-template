@@ -45,6 +45,22 @@ class DbUserRepository(UserRepository, BaseRepository[User]):
 
         return User(**created_user.to_dict())
 
+    def update(self, user: User, session: Session) -> User:
+        updated_user = session.scalars(
+            select(UserModel).where(UserModel.id == user.id)
+        ).one()
+
+        if user.email:
+            updated_user.email = user.email
+
+        if user.name:
+            updated_user.name = user.name
+
+        session.add(updated_user)
+        session.flush()
+
+        return User(**updated_user.to_dict())
+
     def find(self, user_id: int, session: Session) -> User:
         user = session.scalars(
             select(UserModel).where(UserModel.id == user_id)
